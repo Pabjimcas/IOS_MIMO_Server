@@ -34,4 +34,10 @@ public class Recipe extends Model{
 	
 	@Required
 	public Integer portions;
+	
+	public static final Find<Long,Recipe> find = new Find<Long,Recipe>(){};
+	
+	public static Recipe findById (Long id){
+		return find.byId(id);
+	}
 }

@@ -27,5 +27,7 @@ public class Ingredient extends Model{
 	
 	@Required
 	public String category;
+	
+	public static final Find<Long,Ingredient> find = new Find<Long,Ingredient>(){};
 
 }
