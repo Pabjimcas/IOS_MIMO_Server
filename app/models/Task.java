@@ -18,5 +18,7 @@ public class Task extends Model{
 	
 	public Integer seconds;
 	
+	public static final Find<Long,Task> find = new Find<Long,Task>(){};
+	
 	//PHOTO?
 }
