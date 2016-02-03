@@ -13,3 +13,17 @@ GET    /recipe/:recipelId          controllers.RecipeController.getRecipe(recipe
 GET    /recipes                    controllers.RecipeController.getRecipes()
 
 POST   /recipe                     controllers.RecipeController.newRecipe()
+
+GET    /ingredient/:ingredientId          controllers.IngredientController.getIngredient(ingredientId: Long)
+
+GET    /ingredients                   controllers.IngredientController.getIngredients()
+
+POST   /ingredient                    controllers.IngredientController.newIngredient()
+
+POST   /newTask                   controllers.TaskController.newTask()
+
+GET    /task/:taskId          controllers.TaskController.getTask(taskId: Long)
+
+GET    /recipe/:recipeId/tasks                   controllers.TaskController.getTasks(recipeId: Long)
+
+
