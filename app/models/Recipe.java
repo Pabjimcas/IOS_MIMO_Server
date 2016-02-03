@@ -19,7 +19,7 @@ public class Recipe extends Model{
 	@Id
 	public Long id;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="task")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="recipe")
 	public List<Task> tasks;
 	
 	@ManyToMany(mappedBy = "recipes")
@@ -31,6 +31,8 @@ public class Recipe extends Model{
 	public Integer score;
 	
 	public String author;
+	
+	public Integer difficulty;
 	
 	@Required
 	public Integer portions;

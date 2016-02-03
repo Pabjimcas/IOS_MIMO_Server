@@ -1,7 +1,10 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import play.data.validation.Constraints.Required;
 
@@ -12,6 +15,9 @@ public class Ingredient extends Model{
 	
 	@Id
 	public Long id;
+	
+	@ManyToMany
+	public List<Recipe> recipes;
 	
 	@Required
 	public String name;
@@ -29,5 +35,9 @@ public class Ingredient extends Model{
 	public String category;
 	
 	public static final Find<Long,Ingredient> find = new Find<Long,Ingredient>(){};
+	
+	public static Ingredient findById (Long id){
+		return find.byId(id);
+	}
 
 }
