@@ -23,16 +23,13 @@ public class Ingredient extends Model{
 	public String name;
 	
 	@Required
-	public String measure;
-	
-	@Required
-	public Float quantity;
-	
-	@Required
 	public Boolean frozen;
 	
 	@Required
 	public String category;
+	
+	@Required
+	public String baseType;
 	
 	public static final Find<Long,Ingredient> find = new Find<Long,Ingredient>(){};
 	

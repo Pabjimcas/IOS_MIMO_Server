@@ -3,7 +3,9 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import play.data.validation.Constraints.Required;
 
 import com.avaje.ebean.Model;
@@ -22,6 +24,12 @@ public class Task extends Model{
 	@JsonIgnore
 	@ManyToOne
 	public Recipe recipe;
+	
+	@Required
+	public String measure;
+	
+	@Required
+	public Float quantity;
 	
 	public static final Find<Long,Task> find = new Find<Long,Task>(){};
 	
