@@ -13,12 +13,17 @@ import play.mvc.Result;
 
 public class TaskController extends Controller{
 	
-	public Result newTask() {
+	public Result newTask(Long idRecipe) {
 		Form<Task> form = Form.form(Task.class).bindFromRequest();
 		if (form.hasErrors()) {
 			return badRequest(ControllerHelper.errorJson(2, "Datos incorrectos", form.errorsAsJson()));
 		}
+		Recipe recipe = Recipe.findById(idRecipe);
+		if(recipe == null){
+			return notFound("La receta no existe");
+		}
 		Task task = form.get();
+		task.recipe = recipe;
 		task.save();
 		if(request().accepts("application/json")){
     		return ok(Json.toJson(task));

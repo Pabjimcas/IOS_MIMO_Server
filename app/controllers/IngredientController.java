@@ -5,6 +5,9 @@ import helpers.ControllerHelper;
 import java.util.List;
 
 import models.Ingredient;
+import models.IngredientTask;
+import models.Recipe;
+import models.Task;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -48,6 +51,49 @@ public class IngredientController extends Controller{
 	    	}
 	    	return badRequest("Unsupported format");
 		}
+    }
+	
+	public Result newIngredientTask(Long idIngredient, Long idTask) {
+		Form<IngredientTask> form = Form.form(IngredientTask.class).bindFromRequest();
+		if (form.hasErrors()) {
+			return badRequest(ControllerHelper.errorJson(2, "Datos incorrectos", form.errorsAsJson()));
+		}
+		Ingredient ingredient = Ingredient.findById(idIngredient);
+		if(ingredient == null){
+			return notFound("El ingrediente no existe");
+		}
+		Task task = Task.findById(idTask);
+		if(task == null){
+			return notFound("La tarea no existe");
+		}
+		IngredientTask ingredientTask = form.get();
+		ingredientTask.ingredient = ingredient;
+		ingredientTask.task = task;
+		ingredientTask.save();
+		if(request().accepts("application/json")){
+    		return ok("Ingredient assigned to task");
+    	}
+    	return badRequest("Unsupported format");
+    }
+	
+	public Result addRecipe(Long idIngredient,Long idRecipe) {
+		
+		Recipe recipe = Recipe.findById(idRecipe);
+		if(recipe == null){
+			return notFound("La receta no existe");
+		}
+		
+		Ingredient ingredient = Ingredient.findById(idIngredient);
+		if(ingredient == null){
+			return notFound("El ingrediente no existe");
+		}
+		
+		recipe.ingredients.add(ingredient);
+		recipe.update();
+		if(request().accepts("application/json")){
+    		return ok("Ingredient assigned to recipe");
+    	}
+    	return badRequest("Unsupported format");
     }
 
 }

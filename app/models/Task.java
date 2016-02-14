@@ -1,8 +1,12 @@
 package models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,15 +25,12 @@ public class Task extends Model{
 	
 	public Integer seconds;
 	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="task")
+	public List<IngredientTask> taskIngredients;
+	
 	@JsonIgnore
 	@ManyToOne
 	public Recipe recipe;
-	
-	@Required
-	public String measure;
-	
-	@Required
-	public Float quantity;
 	
 	public static final Find<Long,Task> find = new Find<Long,Task>(){};
 	
