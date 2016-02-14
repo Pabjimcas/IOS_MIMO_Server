@@ -5,9 +5,8 @@ import helpers.ControllerHelper;
 import java.util.List;
 
 import models.Ingredient;
-import models.IngredientTask;
+import models.MeasureIngredient;
 import models.Recipe;
-import models.Task;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -80,8 +79,8 @@ public class IngredientController extends Controller {
 		}
 	}
 
-	public Result newIngredientTask(Long idIngredient, Long idTask) {
-		Form<IngredientTask> form = Form.form(IngredientTask.class).bindFromRequest();
+	public Result newIngredientRecipe(Long idIngredient, Long idRecipe) {
+		Form<MeasureIngredient> form = Form.form(MeasureIngredient.class).bindFromRequest();
 		if (form.hasErrors()) {
 			return badRequest(ControllerHelper.errorJson(2, "Datos incorrectos", form.errorsAsJson()));
 		}
@@ -89,13 +88,13 @@ public class IngredientController extends Controller {
 		if (ingredient == null) {
 			return notFound("El ingrediente no existe");
 		}
-		Task task = Task.findById(idTask);
-		if (task == null) {
-			return notFound("La tarea no existe");
+		Recipe recipe = Recipe.findById(idRecipe);
+		if (recipe == null) {
+			return notFound("La receta no existe");
 		}
-		IngredientTask ingredientTask = form.get();
+		MeasureIngredient ingredientTask = form.get();
 		ingredientTask.ingredient = ingredient;
-		ingredientTask.task = task;
+		ingredientTask.recipe = recipe;
 		ingredientTask.save();
 		if (request().accepts("application/json")) {
 			return ok("Ingredient assigned to task");
@@ -103,11 +102,11 @@ public class IngredientController extends Controller {
 		return badRequest("Unsupported format");
 	}
 
-	public Result newIngredientsTask(Long idTask) {
+	public Result newIngredientsRecipe(Long idRecipe) {
 
-		Task task = Task.findById(idTask);
-		if (task == null) {
-			return notFound("La tarea no existe");
+		Recipe recipe = Recipe.findById(idRecipe);
+		if (recipe == null) {
+			return notFound("La receta no existe");
 		}
 		JsonNode json = request().body().asJson();
 
@@ -118,40 +117,35 @@ public class IngredientController extends Controller {
 			if (ingredient == null) {
 				return notFound("El ingrediente no existe");
 			}
-			IngredientTask ingredientTask = new IngredientTask();
+			MeasureIngredient ingredientTask = new MeasureIngredient();
 			String measure = i.get("measure").asText();
 			Float quantity = (float) i.get("quantity").asDouble();
 			ingredientTask.measure = measure;
 			ingredientTask.quantity = quantity;
 			ingredientTask.ingredient = ingredient;
-			ingredientTask.task = task;
+			ingredientTask.recipe = recipe;
 			ingredientTask.save();
 
 		}
-		if (request().accepts("application/json")) {
-			return ok("Ingredient assigned to task");
-		}
-		return badRequest("Unsupported format");
-	}
-
-	public Result addRecipe(Long idIngredient, Long idRecipe) {
-
-		Recipe recipe = Recipe.findById(idRecipe);
-		if (recipe == null) {
-			return notFound("La receta no existe");
-		}
-
-		Ingredient ingredient = Ingredient.findById(idIngredient);
-		if (ingredient == null) {
-			return notFound("El ingrediente no existe");
-		}
-
-		recipe.ingredients.add(ingredient);
-		recipe.update();
 		if (request().accepts("application/json")) {
 			return ok("Ingredient assigned to recipe");
 		}
 		return badRequest("Unsupported format");
 	}
+
+	/*
+	 * public Result addRecipe(Long idIngredient, Long idRecipe) {
+	 * 
+	 * Recipe recipe = Recipe.findById(idRecipe); if (recipe == null) { return
+	 * notFound("La receta no existe"); }
+	 * 
+	 * Ingredient ingredient = Ingredient.findById(idIngredient); if (ingredient
+	 * == null) { return notFound("El ingrediente no existe"); }
+	 * 
+	 * recipe.ingredients.add(ingredient); recipe.update(); if
+	 * (request().accepts("application/json")) { return
+	 * ok("Ingredient assigned to recipe"); } return
+	 * badRequest("Unsupported format"); }
+	 */
 
 }

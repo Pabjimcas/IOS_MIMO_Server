@@ -8,22 +8,21 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class IngredientTask extends Model {
+public class MeasureIngredient extends Model {
 
 	@Id
 	public Long id;
 
-	@JsonIgnore
-	@ManyToOne
-	public Task task;
-
-	@JsonIgnore
-	@ManyToOne
-	public Ingredient ingredient;
 	public String measure;
 	public Float quantity;
+	@JsonIgnore
+	@ManyToOne
+	public Recipe recipe;
 
-	public static final Find<Long, IngredientTask> find = new Find<Long, IngredientTask>() {
+	@ManyToOne
+	public Ingredient ingredient;
+
+	public static final Find<Long, MeasureIngredient> find = new Find<Long, MeasureIngredient>() {
 	};
 
 }

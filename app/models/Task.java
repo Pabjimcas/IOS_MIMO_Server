@@ -1,12 +1,8 @@
 package models;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints.Required;
 
@@ -25,9 +21,6 @@ public class Task extends Model {
 	public String description;
 
 	public Integer seconds;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
-	public List<IngredientTask> taskIngredients;
 
 	@JsonIgnore
 	@ManyToOne

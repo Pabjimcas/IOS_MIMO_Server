@@ -25,10 +25,10 @@ GET    /ingredients/:ingredientId          controllers.IngredientController.getI
 
 GET    /ingredients                   controllers.IngredientController.getIngredients()
 
-POST   /ingredients/:idIngredient/task/:idTask controllers.IngredientController.newIngredientTask(idIngredient: Long, idTask: Long)
-POST   /ingredients/task/:idTask controllers.IngredientController.newIngredientsTask( idTask: Long)
+POST   /ingredients/:idIngredient/recipe/:idRecipe controllers.IngredientController.newIngredientRecipe(idIngredient: Long, idRecipe: Long)
+POST   /ingredients/recipe/:idRecipe controllers.IngredientController.newIngredientsRecipe( idRecipe: Long)
 
-PUT    /ingredients/:idIngredient/recipe/:idRecipe  controllers.IngredientController.addRecipe(idIngredient: Long, idRecipe: Long)
+#PUT    /ingredients/:idIngredient/recipe/:idRecipe  controllers.IngredientController.addRecipe(idIngredient: Long, idRecipe: Long)
 
 # Tasks
 
