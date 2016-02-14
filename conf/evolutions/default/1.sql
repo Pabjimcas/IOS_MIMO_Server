@@ -4,7 +4,7 @@
 # --- !Ups
 
 create table ingredient (
-  id                            bigint not null,
+  id                            serial not null,
   name                          varchar(255),
   frozen                        boolean,
   category                      varchar(255),
@@ -14,13 +14,13 @@ create table ingredient (
 create sequence ingredient_seq;
 
 create table ingredient_recipe (
-  ingredient_id                 bigint not null,
+  ingredient_id                 serial not null,
   recipe_id                     bigint not null,
   constraint pk_ingredient_recipe primary key (ingredient_id,recipe_id)
 );
 
 create table ingredient_task (
-  id                            bigint not null,
+  id                            serial not null,
   task_id                       bigint,
   ingredient_id                 bigint,
   measure                       varchar(255),
@@ -30,7 +30,7 @@ create table ingredient_task (
 create sequence ingredient_task_seq;
 
 create table recipe (
-  id                            bigint not null,
+  id                            serial not null,
   name                          varchar(255),
   score                         integer,
   author                        varchar(255),
@@ -41,7 +41,7 @@ create table recipe (
 create sequence recipe_seq;
 
 create table task (
-  id                            bigint not null,
+  id                            serial not null,
   description                   varchar(255),
   seconds                       integer,
   recipe_id                     bigint,
