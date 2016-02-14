@@ -29,6 +29,7 @@ create table recipe (
   score                         integer,
   author                        varchar(255),
   difficulty                    integer,
+  foto                          varchar(255),
   portions                      integer,
   constraint pk_recipe primary key (id)
 );
