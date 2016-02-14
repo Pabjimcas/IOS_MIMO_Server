@@ -44,7 +44,7 @@ public class TaskController extends Controller {
 			Task task = new Task();
 			task.name = t.get("name").asText();
 			task.description = t.get("description").asText();
-			if (!t.get("seconds").asText().isEmpty()) {
+			if (t.get("seconds") != null) {
 				task.seconds = t.get("seconds").asInt();
 			}
 			task.recipe = recipe;
