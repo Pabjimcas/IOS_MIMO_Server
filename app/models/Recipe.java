@@ -31,6 +31,8 @@ public class Recipe extends Model {
 
 	public Integer difficulty;
 
+	public String foto;
+
 	@Required
 	public Integer portions;
 
