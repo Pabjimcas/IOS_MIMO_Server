@@ -31,7 +31,7 @@ PUT    /ingredients/:idIngredient/recipe/:idRecipe  controllers.IngredientContro
 # Tasks
 
 POST   /recipes/:idRecipe/newTask                   controllers.TaskController.newTask(idRecipe: Long)
-
+POST   /recipes/:idRecipe/newTasks                   controllers.TaskController.newTasks(idRecipe: Long)
 
 
 
