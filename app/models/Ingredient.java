@@ -33,7 +33,7 @@ public class Ingredient extends Model {
 
 	@Required
 	public String baseType;
-
+	public String photo;
 	public static final Find<Long, Ingredient> find = new Find<Long, Ingredient>() {
 	};
 

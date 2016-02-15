@@ -25,7 +25,7 @@ public class Task extends Model {
 	@JsonIgnore
 	@ManyToOne
 	public Recipe recipe;
-
+	public String photo;
 	public static final Find<Long, Task> find = new Find<Long, Task>() {
 	};
 
