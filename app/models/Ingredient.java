@@ -37,6 +37,20 @@ public class Ingredient extends Model {
 	public static final Find<Long, Ingredient> find = new Find<Long, Ingredient>() {
 	};
 
+	public static Ingredient findByName(String nombre) {
+		if (find.where().eq("name", nombre).findList().size() == 0) {
+			return null;
+		}
+		else {
+			return find.where().eq("name", nombre).findList().get(0);
+		}
+
+	}
+
+	public static boolean existe(String nombre) {
+		return Ingredient.findByName(nombre) != null;
+	}
+
 	public static Ingredient findById(Long id) {
 		return find.byId(id);
 	}

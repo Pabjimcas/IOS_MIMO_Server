@@ -39,6 +39,20 @@ public class Recipe extends Model {
 	public static final Find<Long, Recipe> find = new Find<Long, Recipe>() {
 	};
 
+	public static Recipe findByName(String nombre) {
+		if (find.where().eq("name", nombre).findList().size() == 0) {
+			return null;
+		}
+		else {
+			return find.where().eq("name", nombre).findList().get(0);
+		}
+
+	}
+
+	public static boolean existe(String nombre) {
+		return Recipe.findByName(nombre) != null;
+	}
+
 	public static Recipe findById(Long id) {
 		return find.byId(id);
 	}

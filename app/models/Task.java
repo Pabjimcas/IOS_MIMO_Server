@@ -29,7 +29,19 @@ public class Task extends Model {
 	public static final Find<Long, Task> find = new Find<Long, Task>() {
 	};
 
-	// PHOTO?
+	public static Task findByName(String nombre) {
+		if (find.where().eq("name", nombre).findList().size() == 0) {
+			return null;
+		}
+		else {
+			return find.where().eq("name", nombre).findList().get(0);
+		}
+
+	}
+
+	public static boolean existe(String nombre) {
+		return Task.findByName(nombre) != null;
+	}
 
 	public static Task findById(Long id) {
 		return find.byId(id);

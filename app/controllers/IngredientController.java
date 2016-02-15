@@ -22,6 +22,9 @@ public class IngredientController extends Controller {
 			return badRequest(ControllerHelper.errorJson(2, "Datos incorrectos", form.errorsAsJson()));
 		}
 		Ingredient ingredient = form.get();
+		if (Ingredient.existe(ingredient.name)) {
+			return status(CONFLICT, "Ingrediente ya existente");
+		}
 		ingredient.save();
 		if (request().accepts("application/json")) {
 			return ok(Json.toJson(ingredient));
@@ -34,6 +37,9 @@ public class IngredientController extends Controller {
 
 		for (JsonNode i : json.withArray("Ingredients")) {
 			Ingredient ingredient = new Ingredient();
+			if (Ingredient.existe(ingredient.name)) {
+				return status(CONFLICT, "Ingrediente ya existente");
+			}
 			ingredient.name = i.get("name").asText();
 			ingredient.frozen = i.get("frozen").asBoolean();
 			ingredient.category = i.get("category").asText();
