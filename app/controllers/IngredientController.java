@@ -42,7 +42,7 @@ public class IngredientController extends Controller {
 			ingredient.category = i.get("category").asText();
 			ingredient.baseType = i.get("baseType").asText();
 			if (Ingredient.existe(ingredient.name)) {
-				return status(CONFLICT, "Ingrediente ya existente");
+				return status(CONFLICT, "Ingrediente ya existente " + ingredient.name);
 			}
 			ingredient.save();
 
