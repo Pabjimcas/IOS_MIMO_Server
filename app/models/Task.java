@@ -39,6 +39,16 @@ public class Task extends Model {
 
 	}
 
+	public static boolean existeTareaReceta(String task, Long idReceta) {
+		Recipe recipe = Recipe.findById(idReceta);
+		if (find.where().eq("name", task).eq("recipe", recipe).findList().size() == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 	public static boolean existe(String nombre) {
 		return Task.findByName(nombre) != null;
 	}

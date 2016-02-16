@@ -25,6 +25,10 @@ public class TaskController extends Controller {
 			return notFound("La receta no existe");
 		}
 		Task task = form.get();
+		if (Task.existeTareaReceta(task.name, idRecipe)) {
+			return status(CONFLICT, "Relacion ya existente entre " + task.name + " y " + recipe.name + " con id= "
+					+ recipe.id);
+		}
 		task.recipe = recipe;
 		task.save();
 		if (request().accepts("application/json")) {
@@ -43,6 +47,10 @@ public class TaskController extends Controller {
 		for (JsonNode t : json.withArray("Tasks")) {
 			Task task = new Task();
 			task.name = t.get("name").asText();
+			if (Task.existeTareaReceta(task.name, idRecipe)) {
+				return status(CONFLICT, "Relacion ya existente entre " + task.name + " y " + recipe.name + " con id= "
+						+ recipe.id);
+			}
 			task.description = t.get("description").asText();
 			if (t.get("seconds") != null) {
 				task.seconds = t.get("seconds").asInt();
