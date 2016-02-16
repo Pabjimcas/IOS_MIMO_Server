@@ -99,7 +99,8 @@ public class IngredientController extends Controller {
 			return notFound("La receta no existe");
 		}
 		if (MeasureIngredient.existeIngredienteReceta(idIngredient, idRecipe)) {
-			return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " y " + recipe.name);
+			return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " con id= " + ingredient.id
+					+ " y " + recipe.name + " con id= " + recipe.id);
 		}
 		MeasureIngredient ingredientTask = form.get();
 		ingredientTask.ingredient = ingredient;
@@ -127,7 +128,8 @@ public class IngredientController extends Controller {
 				return notFound("El ingrediente no existe");
 			}
 			if (MeasureIngredient.existeIngredienteReceta(id, idRecipe)) {
-				return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " y " + recipe.name);
+				return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " con id= " + ingredient.id
+						+ " y " + recipe.name + " con id= " + recipe.id);
 			}
 			MeasureIngredient ingredientTask = new MeasureIngredient();
 			String measure = i.get("measure").asText();
