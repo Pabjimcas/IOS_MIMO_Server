@@ -98,6 +98,9 @@ public class IngredientController extends Controller {
 		if (recipe == null) {
 			return notFound("La receta no existe");
 		}
+		if (MeasureIngredient.existeIngredienteReceta(idIngredient, idRecipe)) {
+			return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " y " + recipe.name);
+		}
 		MeasureIngredient ingredientTask = form.get();
 		ingredientTask.ingredient = ingredient;
 		ingredientTask.recipe = recipe;
@@ -123,6 +126,9 @@ public class IngredientController extends Controller {
 			if (ingredient == null) {
 				return notFound("El ingrediente no existe");
 			}
+			if (MeasureIngredient.existeIngredienteReceta(id, idRecipe)) {
+				return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " y " + recipe.name);
+			}
 			MeasureIngredient ingredientTask = new MeasureIngredient();
 			String measure = i.get("measure").asText();
 			Float quantity = (float) i.get("quantity").asDouble();
@@ -141,13 +147,13 @@ public class IngredientController extends Controller {
 
 	/*
 	 * public Result addRecipe(Long idIngredient, Long idRecipe) {
-	 *
+	 * 
 	 * Recipe recipe = Recipe.findById(idRecipe); if (recipe == null) { return
 	 * notFound("La receta no existe"); }
-	 *
+	 * 
 	 * Ingredient ingredient = Ingredient.findById(idIngredient); if (ingredient
 	 * == null) { return notFound("El ingrediente no existe"); }
-	 *
+	 * 
 	 * recipe.ingredients.add(ingredient); recipe.update(); if
 	 * (request().accepts("application/json")) { return
 	 * ok("Ingredient assigned to recipe"); } return

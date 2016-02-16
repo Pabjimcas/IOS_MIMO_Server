@@ -25,4 +25,15 @@ public class MeasureIngredient extends Model {
 	public static final Find<Long, MeasureIngredient> find = new Find<Long, MeasureIngredient>() {
 	};
 
+	public static boolean existeIngredienteReceta(Long idIngrediente, Long idReceta) {
+		Ingredient ingredient = Ingredient.findById(idIngrediente);
+		Recipe recipe = Recipe.findById(idReceta);
+		if (find.where().eq("ingredient", ingredient).eq("recipe", recipe).findList().size() == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 }
