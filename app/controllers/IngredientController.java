@@ -37,13 +37,13 @@ public class IngredientController extends Controller {
 
 		for (JsonNode i : json.withArray("Ingredients")) {
 			Ingredient ingredient = new Ingredient();
-			if (Ingredient.existe(ingredient.name)) {
-				return status(CONFLICT, "Ingrediente ya existente");
-			}
 			ingredient.name = i.get("name").asText();
 			ingredient.frozen = i.get("frozen").asBoolean();
 			ingredient.category = i.get("category").asText();
 			ingredient.baseType = i.get("baseType").asText();
+			if (Ingredient.existe(ingredient.name)) {
+				return status(CONFLICT, "Ingrediente ya existente");
+			}
 			ingredient.save();
 
 		}
@@ -141,13 +141,13 @@ public class IngredientController extends Controller {
 
 	/*
 	 * public Result addRecipe(Long idIngredient, Long idRecipe) {
-	 * 
+	 *
 	 * Recipe recipe = Recipe.findById(idRecipe); if (recipe == null) { return
 	 * notFound("La receta no existe"); }
-	 * 
+	 *
 	 * Ingredient ingredient = Ingredient.findById(idIngredient); if (ingredient
 	 * == null) { return notFound("El ingrediente no existe"); }
-	 * 
+	 *
 	 * recipe.ingredients.add(ingredient); recipe.update(); if
 	 * (request().accepts("application/json")) { return
 	 * ok("Ingredient assigned to recipe"); } return
