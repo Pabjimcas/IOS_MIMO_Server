@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints.Required;
 
+import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -53,6 +54,14 @@ public class Ingredient extends Model {
 
 	public static Ingredient findById(Long id) {
 		return find.byId(id);
+	}
+
+	public static List<Ingredient> filterIngredients(String category,List<Long> listIds) {
+		ExpressionList<Ingredient> exp = find.where().eq("category", category);
+		if(listIds.size()>0){
+			exp.notIn("id", listIds);
+		}
+		return exp.findList();
 	}
 
 }

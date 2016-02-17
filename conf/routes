@@ -23,7 +23,7 @@ POST   /ingredientsList                    controllers.IngredientController.newI
 
 GET    /ingredients/:ingredientId          controllers.IngredientController.getIngredient(ingredientId: Long)
 
-GET    /ingredients                   controllers.IngredientController.getIngredients()
+POST    /ingredients/category/:category                   controllers.IngredientController.getIngredients(category: String)
 
 POST   /ingredients/:idIngredient/recipe/:idRecipe controllers.IngredientController.newIngredientRecipe(idIngredient: Long, idRecipe: Long)
 POST   /ingredients/recipe/:idRecipe controllers.IngredientController.newIngredientsRecipe( idRecipe: Long)

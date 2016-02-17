@@ -2,6 +2,7 @@ package controllers;
 
 import helpers.ControllerHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Ingredient;
@@ -70,9 +71,17 @@ public class IngredientController extends Controller {
 		return badRequest("Unsupported format");
 	}
 
-	public Result getIngredients() {
-
-		List<Ingredient> ingredientList = Ingredient.find.all();
+	public Result getIngredients(String category) {
+		
+		JsonNode json = request().body().asJson();
+		
+		List<Long> listIds = new ArrayList<Long>();
+		for (JsonNode i : json.withArray("Filters")) {
+			Long idIngredient = i.get("id").asLong();
+			listIds.add(idIngredient);
+		}
+		
+		List<Ingredient> ingredientList = Ingredient.filterIngredients(category,listIds);
 
 		if (ingredientList.size() == 0) {
 			return badRequest("No se han encontrado resultados en la búsqueda");

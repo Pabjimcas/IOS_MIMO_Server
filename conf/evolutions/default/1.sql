@@ -9,6 +9,7 @@ create table ingredient (
   frozen                        boolean,
   category                      varchar(255),
   base_type                     varchar(255),
+  photo                         varchar(255),
   constraint pk_ingredient primary key (id)
 );
 create sequence ingredient_seq;
@@ -29,7 +30,7 @@ create table recipe (
   score                         integer,
   author                        varchar(255),
   difficulty                    integer,
-  foto                          varchar(255),
+  photo                         varchar(255),
   portions                      integer,
   constraint pk_recipe primary key (id)
 );
@@ -41,6 +42,7 @@ create table task (
   description                   varchar(255),
   seconds                       integer,
   recipe_id                     bigint,
+  photo                         varchar(255),
   constraint pk_task primary key (id)
 );
 create sequence task_seq;
