@@ -83,8 +83,11 @@ public class IngredientController extends Controller {
 			Long idIngredient = i.get("id").asLong();
 			listIds.add(idIngredient);
 		}*/
+		List<String> listIds = new ArrayList<String>();
 		String listaIngredientes=request().getQueryString("ids");
-		List<String> listIds=Arrays.asList(listaIngredientes.split("\\s*,\\s*"));
+		if (listaIngredientes != null){
+			listIds=Arrays.asList(listaIngredientes.split("\\s*,\\s*"));
+		}
 		List<Ingredient> ingredientList = Ingredient.filterIngredients(
 				category, listIds);
 
