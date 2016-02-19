@@ -70,9 +70,12 @@ public class Ingredient extends Model {
 public static List<Ingredient> listaIngredientesExistentes(String ingredientes){
 		
 		List<Ingredient> listaIngredients=new ArrayList<Ingredient>();
-		List<String> ingredientesNombres=Arrays.asList(ingredientes.split("\\s*,\\s*"));
-		for (String nombre:ingredientesNombres){
-			Ingredient i = Ingredient.findByName(nombre);
+		List<String> ingredientesIds=Arrays.asList(ingredientes.split("\\s*,\\s*"));
+		List<Long> longlist = new ArrayList<Long>();
+		for(String id : ingredientesIds) longlist.add(Long.valueOf(id));
+		for (Long id2 : longlist){
+			
+			Ingredient i = Ingredient.findById(id2);
 			if (i!=null){
 				listaIngredients.add(i);
 			}
