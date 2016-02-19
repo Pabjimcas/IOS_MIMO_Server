@@ -1,5 +1,7 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -56,12 +58,26 @@ public class Ingredient extends Model {
 		return find.byId(id);
 	}
 
-	public static List<Ingredient> filterIngredients(String category,List<Long> listIds) {
+	public static List<Ingredient> filterIngredients(String category,List<String> listIds) {
+		List<Long> longlist = new ArrayList<Long>();
+		for(String id : listIds) longlist.add(Long.valueOf(id));
 		ExpressionList<Ingredient> exp = find.where().eq("category", category);
-		if(listIds.size()>0){
-			exp.notIn("id", listIds);
+		if(longlist.size()>0){
+			exp.notIn("id", longlist);
 		}
 		return exp.findList();
+	}
+public static List<Ingredient> listaIngredientesExistentes(String ingredientes){
+		
+		List<Ingredient> listaIngredients=new ArrayList<Ingredient>();
+		List<String> ingredientesNombres=Arrays.asList(ingredientes.split("\\s*,\\s*"));
+		for (String nombre:ingredientesNombres){
+			Ingredient i = Ingredient.findByName(nombre);
+			if (i!=null){
+				listaIngredients.add(i);
+			}
+		}
+		return listaIngredients;
 	}
 
 }

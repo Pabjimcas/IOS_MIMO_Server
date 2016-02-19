@@ -22,8 +22,8 @@ POST   /ingredients                    controllers.IngredientController.newIngre
 POST   /ingredientsList                    controllers.IngredientController.newIngredients()
 
 GET    /ingredients/:ingredientId          controllers.IngredientController.getIngredient(ingredientId: Long)
-
-POST    /ingredients/category/:category                   controllers.IngredientController.getIngredients(category: String)
+GET    /ingredients                        controllers.IngredientController.getIngredientsList()
+GET    /ingredients/category/:category                   controllers.IngredientController.getIngredients(category: String)
 
 POST   /ingredients/:idIngredient/recipe/:idRecipe controllers.IngredientController.newIngredientRecipe(idIngredient: Long, idRecipe: Long)
 POST   /ingredients/recipe/:idRecipe controllers.IngredientController.newIngredientsRecipe( idRecipe: Long)
@@ -35,6 +35,8 @@ POST   /ingredients/recipe/:idRecipe controllers.IngredientController.newIngredi
 POST   /recipes/:idRecipe/newTask                   controllers.TaskController.newTask(idRecipe: Long)
 POST   /recipes/:idRecipe/newTasks                   controllers.TaskController.newTasks(idRecipe: Long)
 
+#Measures
 
+GET /recipesIngredients                 controllers.RecipeController.getRecetasIngredients()
 
 

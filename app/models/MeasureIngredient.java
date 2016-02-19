@@ -1,5 +1,13 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -34,6 +42,23 @@ public class MeasureIngredient extends Model {
 		else {
 			return true;
 		}
+	}
+	public static Set<Recipe> recetasConIngredientes (List<Ingredient> listaIngredientes){
+		List<Recipe> listaRecetas = new ArrayList<Recipe>();
+		List<MeasureIngredient> listaMeasure = new ArrayList<MeasureIngredient>();
+		for (Ingredient ingredient :listaIngredientes){
+			listaMeasure= MeasureIngredient.find.where().eq("ingredient", ingredient).findList();
+			Set<MeasureIngredient> setMeasure = new LinkedHashSet<MeasureIngredient>(listaMeasure);
+			Iterator<MeasureIngredient> itr = setMeasure.iterator(); 
+			while (itr.hasNext()){
+				listaRecetas.add(itr.next().recipe);
+			}
+		}
+		//Set<MeasureIngredient> setRecipe = new LinkedHashSet<MeasureIngredient>(listaMeasure);
+		Set<Recipe> setRecipe = new LinkedHashSet<Recipe>(listaRecetas);
+		
+		return setRecipe;
+		
 	}
 
 }

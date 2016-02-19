@@ -3,6 +3,7 @@ package controllers;
 import helpers.ControllerHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import models.Ingredient;
@@ -20,7 +21,8 @@ public class IngredientController extends Controller {
 	public Result newIngredient() {
 		Form<Ingredient> form = Form.form(Ingredient.class).bindFromRequest();
 		if (form.hasErrors()) {
-			return badRequest(ControllerHelper.errorJson(2, "Datos incorrectos", form.errorsAsJson()));
+			return badRequest(ControllerHelper.errorJson(2,
+					"Datos incorrectos", form.errorsAsJson()));
 		}
 		Ingredient ingredient = form.get();
 		if (Ingredient.existe(ingredient.name)) {
@@ -43,7 +45,8 @@ public class IngredientController extends Controller {
 			ingredient.category = i.get("category").asText();
 			ingredient.baseType = i.get("baseType").asText();
 			if (Ingredient.existe(ingredient.name)) {
-				return status(CONFLICT, "Ingrediente ya existente " + ingredient.name);
+				return status(CONFLICT, "Ingrediente ya existente "
+						+ ingredient.name);
 			}
 			ingredient.save();
 
@@ -72,21 +75,22 @@ public class IngredientController extends Controller {
 	}
 
 	public Result getIngredients(String category) {
-		
-		JsonNode json = request().body().asJson();
-		
+
+		/*JsonNode json = request().body().asJson();
+
 		List<Long> listIds = new ArrayList<Long>();
 		for (JsonNode i : json.withArray("Filters")) {
 			Long idIngredient = i.get("id").asLong();
 			listIds.add(idIngredient);
-		}
-		
-		List<Ingredient> ingredientList = Ingredient.filterIngredients(category,listIds);
+		}*/
+		String listaIngredientes=request().getQueryString("ids");
+		List<String> listIds=Arrays.asList(listaIngredientes.split("\\s*,\\s*"));
+		List<Ingredient> ingredientList = Ingredient.filterIngredients(
+				category, listIds);
 
 		if (ingredientList.size() == 0) {
 			return badRequest("No se han encontrado resultados en la búsqueda");
-		}
-		else {
+		} else {
 			if (request().accepts("application/json")) {
 				return ok(Json.toJson(ingredientList));
 			}
@@ -94,10 +98,21 @@ public class IngredientController extends Controller {
 		}
 	}
 
+	public Result getIngredientsList() {
+
+		if (request().accepts("application/json")) {
+			return ok(Json.toJson(Ingredient.find.all()));
+		}
+		return badRequest("Unsupported format");
+
+	}
+
 	public Result newIngredientRecipe(Long idIngredient, Long idRecipe) {
-		Form<MeasureIngredient> form = Form.form(MeasureIngredient.class).bindFromRequest();
+		Form<MeasureIngredient> form = Form.form(MeasureIngredient.class)
+				.bindFromRequest();
 		if (form.hasErrors()) {
-			return badRequest(ControllerHelper.errorJson(2, "Datos incorrectos", form.errorsAsJson()));
+			return badRequest(ControllerHelper.errorJson(2,
+					"Datos incorrectos", form.errorsAsJson()));
 		}
 		Ingredient ingredient = Ingredient.findById(idIngredient);
 		if (ingredient == null) {
@@ -108,8 +123,9 @@ public class IngredientController extends Controller {
 			return notFound("La receta no existe");
 		}
 		if (MeasureIngredient.existeIngredienteReceta(idIngredient, idRecipe)) {
-			return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " con id= " + ingredient.id
-					+ " y " + recipe.name + " con id= " + recipe.id);
+			return status(CONFLICT, "Relacion ya existente entre "
+					+ ingredient.name + " con id= " + ingredient.id + " y "
+					+ recipe.name + " con id= " + recipe.id);
 		}
 		MeasureIngredient ingredientTask = form.get();
 		ingredientTask.ingredient = ingredient;
@@ -137,8 +153,9 @@ public class IngredientController extends Controller {
 				return notFound("El ingrediente no existe");
 			}
 			if (MeasureIngredient.existeIngredienteReceta(id, idRecipe)) {
-				return status(CONFLICT, "Relacion ya existente entre " + ingredient.name + " con id= " + ingredient.id
-						+ " y " + recipe.name + " con id= " + recipe.id);
+				return status(CONFLICT, "Relacion ya existente entre "
+						+ ingredient.name + " con id= " + ingredient.id + " y "
+						+ recipe.name + " con id= " + recipe.id);
 			}
 			MeasureIngredient ingredientTask = new MeasureIngredient();
 			String measure = i.get("measure").asText();

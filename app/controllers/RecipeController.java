@@ -3,8 +3,14 @@ package controllers;
 import helpers.ControllerHelper;
 import helpers.RecipeMinimized;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import models.Ingredient;
+import models.MeasureIngredient;
 import models.Recipe;
 import play.data.Form;
 import play.libs.Json;
@@ -54,6 +60,15 @@ public class RecipeController extends Controller {
 			}
 			return badRequest("Unsupported format");
 		}
+	}
+	public Result getRecetasIngredients(){
+		
+		Set<Recipe> listaRecetas = new LinkedHashSet<Recipe>();
+		String listaIngredientes=request().getQueryString("ingredientes");
+		List<Ingredient> lista = Ingredient.listaIngredientesExistentes(listaIngredientes);
+		listaRecetas=MeasureIngredient.recetasConIngredientes(lista);
+		
+		return ok(Json.toJson(listaRecetas));
 	}
 
 }
