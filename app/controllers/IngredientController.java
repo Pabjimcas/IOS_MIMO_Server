@@ -53,9 +53,9 @@ public class IngredientController extends Controller {
 		}
 		List<Ingredient> ingredientList = Ingredient.find.all();
 
-		if (ingredientList.size() == 0) {
+		/*if (ingredientList.size() == 0) {
 			return badRequest("No se han encontrado resultados en la búsqueda");
-		}
+		}*/
 		if (request().accepts("application/json")) {
 			return ok(Json.toJson(ingredientList));
 		}
@@ -91,14 +91,14 @@ public class IngredientController extends Controller {
 		List<Ingredient> ingredientList = Ingredient.filterIngredients(
 				category, listIds);
 
-		if (ingredientList.size() == 0) {
+		/*if (ingredientList.size() == 0) {
 			return badRequest("No se han encontrado resultados en la búsqueda");
-		} else {
+		} else {*/
 			if (request().accepts("application/json")) {
 				return ok(Json.toJson(ingredientList));
 			}
 			return badRequest("Unsupported format");
-		}
+		//}
 	}
 
 	public Result getIngredientsList() {

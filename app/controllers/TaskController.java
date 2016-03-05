@@ -62,15 +62,15 @@ public class TaskController extends Controller {
 
 		List<Task> taskList = recipe.tasks;
 
-		if (taskList.size() == 0) {
+		/*if (taskList.size() == 0) {
 			return badRequest("No se han encontrado resultados en la búsqueda");
 		}
-		else {
+		else {*/
 			if (request().accepts("application/json")) {
 				return ok(Json.toJson(taskList));
 			}
 			return badRequest("Unsupported format");
-		}
+		//}
 	}
 
 	public Result getTask(Long idTask) {
@@ -94,15 +94,15 @@ public class TaskController extends Controller {
 
 		List<Task> taskList = recipe.tasks;
 
-		if (taskList.size() == 0) {
+		/*if (taskList.size() == 0) {
 			return badRequest("No se han encontrado resultados en la búsqueda");
 		}
-		else {
+		else {*/
 			if (request().accepts("application/json")) {
 				return ok(Json.toJson(taskList));
 			}
 			return badRequest("Unsupported format");
-		}
+		//}
 	}
 
 }
