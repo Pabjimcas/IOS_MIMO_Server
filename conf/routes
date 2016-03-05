@@ -19,20 +19,24 @@ GET    /recipes                    controllers.RecipeController.getRecipes()
 # Ingrecients
 
 POST   /ingredients                    controllers.IngredientController.newIngredient()
+POST   /ingredientsList                    controllers.IngredientController.newIngredients()
 
 GET    /ingredients/:ingredientId          controllers.IngredientController.getIngredient(ingredientId: Long)
+GET    /ingredients                        controllers.IngredientController.getIngredientsList()
+GET    /ingredients/category/:category                   controllers.IngredientController.getIngredients(category: String)
 
-GET    /ingredients                   controllers.IngredientController.getIngredients()
+POST   /ingredients/:idIngredient/recipe/:idRecipe controllers.IngredientController.newIngredientRecipe(idIngredient: Long, idRecipe: Long)
+POST   /ingredients/recipe/:idRecipe controllers.IngredientController.newIngredientsRecipe( idRecipe: Long)
 
-POST   /ingredients/:idIngredient/task/:idTask controllers.IngredientController.newIngredientTask(idIngredient: Long, idTask: Long)
-
-PUT    /ingredients/:idIngredient/recipe/:idRecipe  controllers.IngredientController.addRecipe(idIngredient: Long, idRecipe: Long)
+#PUT    /ingredients/:idIngredient/recipe/:idRecipe  controllers.IngredientController.addRecipe(idIngredient: Long, idRecipe: Long)
 
 # Tasks
 
 POST   /recipes/:idRecipe/newTask                   controllers.TaskController.newTask(idRecipe: Long)
+POST   /recipes/:idRecipe/newTasks                   controllers.TaskController.newTasks(idRecipe: Long)
 
+#Measures
 
-
+GET /recipesIngredients                 controllers.RecipeController.getRecetasIngredients()
 
 

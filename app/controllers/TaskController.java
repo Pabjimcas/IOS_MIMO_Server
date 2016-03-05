@@ -11,55 +11,98 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class TaskController extends Controller{
-	
+import com.fasterxml.jackson.databind.JsonNode;
+
+public class TaskController extends Controller {
+
 	public Result newTask(Long idRecipe) {
 		Form<Task> form = Form.form(Task.class).bindFromRequest();
 		if (form.hasErrors()) {
 			return badRequest(ControllerHelper.errorJson(2, "Datos incorrectos", form.errorsAsJson()));
 		}
 		Recipe recipe = Recipe.findById(idRecipe);
-		if(recipe == null){
+		if (recipe == null) {
 			return notFound("La receta no existe");
 		}
 		Task task = form.get();
+		if (Task.existeTareaReceta(task.name, idRecipe)) {
+			return status(CONFLICT, "Relacion ya existente entre " + task.name + " y " + recipe.name + " con id= "
+					+ recipe.id);
+		}
 		task.recipe = recipe;
 		task.save();
-		if(request().accepts("application/json")){
-    		return ok(Json.toJson(task));
-    	}
-    	return badRequest("Unsupported format");
-    }
-	
+		if (request().accepts("application/json")) {
+			return ok(Json.toJson(task));
+		}
+		return badRequest("Unsupported format");
+	}
+
+	public Result newTasks(Long idRecipe) {
+		Recipe recipe = Recipe.findById(idRecipe);
+		if (recipe == null) {
+			return notFound("La receta no existe");
+		}
+		JsonNode json = request().body().asJson();
+
+		for (JsonNode t : json.withArray("Tasks")) {
+			Task task = new Task();
+			task.name = t.get("name").asText();
+			if (Task.existeTareaReceta(task.name, idRecipe)) {
+				return status(CONFLICT, "Relacion ya existente entre " + task.name + " y " + recipe.name + " con id= "
+						+ recipe.id);
+			}
+			task.description = t.get("description").asText();
+			if (t.get("seconds") != null) {
+				task.seconds = t.get("seconds").asInt();
+			}
+			task.recipe = recipe;
+			task.save();
+
+		}
+
+		List<Task> taskList = recipe.tasks;
+
+		/*if (taskList.size() == 0) {
+			return badRequest("No se han encontrado resultados en la búsqueda");
+		}
+		else {*/
+			if (request().accepts("application/json")) {
+				return ok(Json.toJson(taskList));
+			}
+			return badRequest("Unsupported format");
+		//}
+	}
+
 	public Result getTask(Long idTask) {
 		Task task = Task.findById(idTask);
-		if(task == null){
+		if (task == null) {
 			return badRequest("La tarea no existe");
 		}
-		if(request().accepts("application/json")){
-    		return ok(Json.toJson(task));
-    	}
-    	return badRequest("Unsupported format");
-    }
-	
-	public Result getTasks(Long idRecipe){
-		
+		if (request().accepts("application/json")) {
+			return ok(Json.toJson(task));
+		}
+		return badRequest("Unsupported format");
+	}
+
+	public Result getTasks(Long idRecipe) {
+
 		Recipe recipe = Recipe.findById(idRecipe);
-		
-		if(recipe == null){
+
+		if (recipe == null) {
 			return badRequest("La receta no existe");
 		}
-		
+
 		List<Task> taskList = recipe.tasks;
-		
-		if(taskList.size() == 0){
+
+		/*if (taskList.size() == 0) {
 			return badRequest("No se han encontrado resultados en la búsqueda");
-		}else{
-			if(request().accepts("application/json")){
-	    		return ok(Json.toJson(taskList));
-	    	}
-	    	return badRequest("Unsupported format");
 		}
-    }
+		else {*/
+			if (request().accepts("application/json")) {
+				return ok(Json.toJson(taskList));
+			}
+			return badRequest("Unsupported format");
+		//}
+	}
 
 }
